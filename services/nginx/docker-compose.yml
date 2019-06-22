@@ -1,0 +1,18 @@
+version: '3'
+services:
+  nginx:
+    environment:
+      MIRROR_SOURCE: tencent
+      WWW_PATH: /var/www
+    image: jirry/nginx:1.15
+    container_name: nginx-1.15
+    build:
+      context: .
+      dockerfile: ./v1.15/Dockerfile
+      ports:
+        - "80:80"
+        - "443:443"
+      volumes:
+        - ${WWW_PATH}:/usr/share/nginx/html:rw
+        - ./etc/conf.d:/etc/nginx/conf.d
+        - ./etc/nginx.conf:/etc/nginx/nginx.conf:ro

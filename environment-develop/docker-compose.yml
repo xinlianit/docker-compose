@@ -1,0 +1,19 @@
+version: '3'
+services:
+  mysql:  # 服务名
+    environment:  # 环境变量
+      MIRROR_SOURCE: tencent # 镜像来源
+      MYSQL_ROOT_PASSWORD: 123456 # mysql root 密码
+    image: jirry/mysql:5.7  # 镜像名
+    container_name: jirry-mysql # 容器名
+    build:  # 构建
+      context: .  # 构建目录，.：当前目录
+      dockerfile: ./services/mysql/v5.7/Dockerfile  # Dockerfile 构建文件
+    ports:  # 端口
+      - "3306:3306" # 对外端口
+    volumes:  # 挂载卷
+      - ./services/mysql/data:/var/lib/mysql:rw # mysql 数据；rw：读写，同步宿主机
+      - ./services/mysql/etc:/etc/mysql:ro  # mysql 配置；ro：只读，不同步宿主机
+      - ./services/mysql/log:/var/log/mysql:rw  # mysql 日志；rw：读写，同步宿主机
+    restart: always # 重启；永久（开机随Docker自启）
+    command: "--character-set-server=utf8"  # 命令；设置编码
