@@ -1,0 +1,14 @@
+bootstrap.memory_lock: false
+cluster.name: "es-cluster"
+node.name: es-slave-1
+node.master: false
+node.data: false
+network.host: 0.0.0.0
+http.port: 9200
+transport.tcp.port: 9300
+discovery.zen.minimum_master_nodes: 1
+discovery.zen.ping.unicast.hosts: ["es-master"]
+
+path.logs: /usr/share/elasticsearch/logs
+http.cors.enabled: true
+http.cors.allow-origin: "*"

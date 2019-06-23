@@ -1,0 +1,52 @@
+# -------------------------------- * 构建基础条件 * --------------------------------
+# 1、vi /etc/sysctl.conf 修改内核参数
+# 2、vm.max_map_count=655360 调整虚拟内存
+# 3、sysctl -p 修改生效
+
+version: '3'
+
+services:
+  # -------------------------------- * ES 主服务节点 * --------------------------------
+  es-master:
+    image: jirry/es
+    container_name: jirry-es-master
+    build:
+      context: .
+      dockerfile: ${ES_DIR}/es-master/Dockerfile
+    volumes:
+      - ${ES_DIR}/es-master/data:/usr/share/elasticsearch/data:rw
+      - ${ES_DIR}/es-master/etc/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ${ES_DIR}/es-master/logs:/user/share/elasticsearch/logs:rw
+    ports:
+      - "9200:9200" # Rest API 对外http端口
+      - "9300:9300" # TCP 集群内部通信端口
+    restart: always
+
+  # -------------------------------- * ES 从服务节点 * --------------------------------
+  es-slave-1:
+    image: jirry/es
+    container_name: jirry-es-slave-1
+    build:
+      context: .
+      dockerfile: ${ES_DIR}/es-slave-1/Dockerfile
+    volumes:
+      - ${ES_DIR}/es-slave-1/data:/usr/share/elasticsearch/data:rw
+      - ${ES_DIR}/es-slave-1/etc/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ${ES_DIR}/es-slave-1/logs:/user/share/elasticsearch/logs:rw
+    ports:
+      - "9201:9200" # Rest API 对外http端口
+      - "9301:9300" # TCP 集群内部通信端口
+    restart: always
+
+  # -------------------------------- * ES 监控服务 * --------------------------------
+  cerebro:
+    image: jirry/cerebro
+    container_name: jirry-cerebro
+    build:
+      context: .
+      dockerfile: ${CEREBRO_DIR}/Dockerfile
+    ports:
+      - "9100:9000"
+    restart: always
+
+
