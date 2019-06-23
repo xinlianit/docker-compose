@@ -1,19 +1,123 @@
 version: '3'
 services:
-  mysql:  # 服务名
+  # -------------------------------- * MySql 服务 * --------------------------------
+  mysql:  # MySql 服务
     environment:  # 环境变量
-      MIRROR_SOURCE: tencent # 镜像来源
-      MYSQL_ROOT_PASSWORD: 123456 # mysql root 密码
+      MIRROR_SOURCE: ${MIRROR_SOURCE_TENCENT} # 镜像来源
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # mysql root 密码
     image: jirry/mysql:5.7  # 镜像名
     container_name: jirry-mysql # 容器名
     build:  # 构建
       context: .  # 构建目录，.：当前目录
-      dockerfile: ./services/mysql/v5.7/Dockerfile  # Dockerfile 构建文件
+      dockerfile: ${MYSQL_DIR}/v5.7/Dockerfile  # Dockerfile 构建文件
     ports:  # 端口
       - "3306:3306" # 对外端口
     volumes:  # 挂载卷
-      - ./services/mysql/data:/var/lib/mysql:rw # mysql 数据；rw：读写，同步宿主机
-      - ./services/mysql/etc:/etc/mysql:ro  # mysql 配置；ro：只读，不同步宿主机
-      - ./services/mysql/log:/var/log/mysql:rw  # mysql 日志；rw：读写，同步宿主机
+      - ${MYSQL_DIR}/data:/var/lib/mysql:rw # mysql 数据；rw：读写，同步宿主机
+      - ${MYSQL_DIR}/etc:/etc/mysql:ro  # mysql 配置；ro：只读，不同步宿主机
+      - ${MYSQL_DIR}/log:/var/log/mysql:rw  # mysql 日志；rw：读写，同步宿主机
     restart: always # 重启；永久（开机随Docker自启）
     command: "--character-set-server=utf8"  # 命令；设置编码
+
+  # -------------------------------- * Redis 服务 * --------------------------------
+  redis:
+    environment:  # 环境变量
+      MIRROR_SOURCE: ${MIRROR_SOURCE_TENCENT} # 镜像来源
+    image: jirry/redis:5.0  # 镜像名
+    container_name: jirry-redis # 容器名
+    build:  # 构建
+      context: .  # 构建目录，.：当前目录
+      dockerfile: ${REDIS_DIR}/v5.0/Dockerfile  # Dockerfile 构建文件
+    ports:
+      - "6379:6379"
+    volumes:
+      - ${REDIS_DIR}/data:/data:rw # Redis 数据
+      - ${REDIS_DIR}/etc:/etc/redis:ro # Redis 配置
+      - ${REDIS_DIR}/log:/var/log/redis:rw # Redis 日志
+    restart: always # 重启；永久（开机随Docker自启）
+    command:
+      redis-server /etc/redis/6379.conf  # 启动Redis服务
+  # -------------------------------- * PHP 服务 * --------------------------------
+  php:
+    environment:  # 环境变量
+      MIRROR_SOURCE: ${MIRROR_SOURCE_ALIYUN}  # 镜像来源
+    image: jirry/php:7.3-fpm
+    container_name: jirry-php-7.3
+    build:
+      context: .
+      dockerfile: ${PHP_DIR}/v7.3/Dockerfile
+      args:
+        INSTALL_SWOOLE: "true"
+    depends_on: # 依赖服务
+      - mysql
+    ports:
+      - "9000:9000"
+    volumes:
+      - ${WWW_PATH}:/var/www/html:rw
+      - ${PHP_DIR}/etc:/usr/local/etc:ro
+    restart: always
+    command: php-fpm
+  # -------------------------------- * Openresty 服务 * --------------------------------
+  openresty:
+    environment:
+      MIRROR_SOURCE: ${MIRROR_SOURCE_TENCENT}  # 镜像来源
+    image: jirry/openresty:1.13
+    container_name: jirry-openresty
+    build:
+      context: .
+      dockerfile: ${OPENRESTY_DIR}/v1.13/Dockerfile
+    depends_on:
+      - php
+    ports:
+      - "8000:80"
+      - "8443:443"
+    volumes:
+      - ${WWW_PATH}:/usr/local/openresty/nginx/html:rw
+      - ${OPENRESTY_DIR}/etc/conf.d:/etc/nginx/conf.d
+      - ${OPENRESTY_DIR}/etc/nginx.conf:/etc/nginx/nginx.conf:ro
+    restart: always
+    command: openresty -g 'daemon off;'
+  # -------------------------------- * Postgores 服务 * --------------------------------
+  postgres:
+    environment:
+      MIRROR_SOURCE: ${MIRROR_SOURCE_ALIYUN}  # 镜像来源
+      POSTGRES_USER: ${POSTGRES_USER_KONG} # 用户名
+      POSTGRES_DB: ${POSTGRES_DB_KONG} # 密码
+    image: jirry/postgres:9.6
+    container_name: jirry-postgres
+    build:
+      context: .
+      dockerfile: ${POSTGRES_DIR}/v9.6/Dockerfile
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${POSTGRES_DIR}/data:/var/lib/postgresql/data:rw  # 数据目录
+    restart: always
+  # -------------------------------- * Kong 服务 * --------------------------------
+  kong:
+    environment:
+      MIRROR_SOURCE: ${MIRROR_SOURCE_ALIYUN}  # 镜像来源
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_CASSANDRA_CONTACT_POINTS: kong-database
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+    image: jirry/kong:0.13
+    container_name: jirry-kong
+    build:
+      context: .
+      dockerfile: ${KONG_DIR}/v0.13/Dockerfile
+    depends_on:
+      - postgres
+      - openresty
+    ports:
+      - "80:8000"
+      - "443:8443"
+      - "8100:8001"
+      - "8444:8444"
+
+
+
+
