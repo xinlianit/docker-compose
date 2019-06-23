@@ -1,0 +1,28 @@
+{
+  "datacenter": "dc1",
+  "server": false,
+  "node_name": "consul_client_4",
+  "bind_addr": "0.0.0.0",
+  "client_addr": "0.0.0.0",
+  "data_dir": "/var/lib/consul/data",
+  "ui": true,
+  "ui_dir": "",
+  "log_level": "INFO",
+  "start_join": [
+    "jirry-consul-node-1",
+    "jirry-consul-node-2",
+    "jirry-consul-node-3",
+    "jirry-consul-node-4"
+  ],
+  "retry_join": [
+    "jirry-consul-node-1",
+    "jirry-consul-node-2",
+    "jirry-consul-node-3",
+    "jirry-consul-node-4"
+  ],
+  "retry_interval": "30s",
+  "retry_max": 0,
+  "rejoin_after_leave": true,
+  "enable_debug": false,
+  "raft_protocol": 3
+}

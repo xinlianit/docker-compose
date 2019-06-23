@@ -1,0 +1,71 @@
+version: '3'
+
+services:
+  # -------------------------------- * Consul 服务端节点 * --------------------------------
+  node_server_1:
+    image: jirry/consul
+    container_name: jirry-consul-node-1
+    build:
+      context: .
+      dockerfile: ${CONSUL_DIR}/consul_server_1/Dockerfile
+    volumes:
+      - ${CONSUL_DIR}/consul_server_1/data:/var/lib/consul/data:rw
+      - ${CONSUL_DIR}/consul_server_1/etc/consul.json:/etc/consul/consul.json:ro
+      - ${CONSUL_DIR}/consul_server_1/etc/conf.d:/etc/consul/conf.d:ro
+    networks:
+      - consul_net
+    restart: always
+    command: agent --config-file=/etc/consul/consul.json --config-dir=/etc/consul/conf.d
+
+  # -------------------------------- * Consul 服务端节点 * --------------------------------
+  node_server_2:
+    image: jirry/consul
+    container_name: jirry-consul-node-2
+    build:
+      context: .
+      dockerfile: ${CONSUL_DIR}/consul_server_2/Dockerfile
+    volumes:
+      - ${CONSUL_DIR}/consul_server_2/data:/var/lib/consul/data:rw
+      - ${CONSUL_DIR}/consul_server_2/etc/consul.json:/etc/consul/consul.json:ro
+      - ${CONSUL_DIR}/consul_server_2/etc/conf.d:/etc/consul/conf.d:ro
+    networks:
+      - consul_net
+    restart: always
+    command: agent --config-file=/etc/consul/consul.json --config-dir=/etc/consul/conf.d
+
+  # -------------------------------- * Consul 服务端节点 * --------------------------------
+  node_server_3:
+    image: jirry/consul
+    container_name: jirry-consul-node-3
+    build:
+      context: .
+      dockerfile: ${CONSUL_DIR}/consul_server_3/Dockerfile
+    volumes:
+      - ${CONSUL_DIR}/consul_server_3/data:/var/lib/consul/data:rw
+      - ${CONSUL_DIR}/consul_server_3/etc/consul.json:/etc/consul/consul.json:ro
+      - ${CONSUL_DIR}/consul_server_3/etc/conf.d:/etc/consul/conf.d:ro
+    networks:
+      - consul_net
+    restart: always
+    command: agent --config-file=/etc/consul/consul.json --config-dir=/etc/consul/conf.d
+
+  # -------------------------------- * Consul 客户端节点 * --------------------------------
+  node_client_4:
+    image: jirry/consul
+    container_name: jirry-consul-node-4
+    build:
+      context: .
+      dockerfile: ${CONSUL_DIR}/consul_client_4/Dockerfile
+    volumes:
+      - ${CONSUL_DIR}/consul_client_4/data:/var/lib/consul/data:rw
+      - ${CONSUL_DIR}/consul_client_4/etc/consul.json:/etc/consul/consul.json:ro
+      - ${CONSUL_DIR}/consul_client_4/etc/conf.d:/etc/consul/conf.d:ro
+    ports:
+      - "8500:8500"
+    networks:
+      - consul_net
+    restart: always
+    command: agent --config-file=/etc/consul/consul.json --config-dir=/etc/consul/conf.d
+
+networks:
+  consul_net:
