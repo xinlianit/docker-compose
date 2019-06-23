@@ -94,16 +94,18 @@ services:
       - ${POSTGRES_DIR}/data:/var/lib/postgresql/data:rw  # 数据目录
     restart: always
   # -------------------------------- * Kong 服务 * --------------------------------
+  # kong构建完成后，运行kong数据迁移：docker-compose run --rm kong kong migrations up
   kong:
     environment:
       MIRROR_SOURCE: ${MIRROR_SOURCE_ALIYUN}  # 镜像来源
       KONG_DATABASE: postgres
-      KONG_PG_HOST: kong-database
-      KONG_CASSANDRA_CONTACT_POINTS: kong-database
+      KONG_PG_HOST: jirry-postgres
+      KONG_CASSANDRA_CONTACT_POINTS: jirry-postgres
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
     image: jirry/kong:0.13
     container_name: jirry-kong
     build:
@@ -117,6 +119,25 @@ services:
       - "443:8443"
       - "8100:8001"
       - "8444:8444"
+    volumes:
+      - ${KONG_DIR}/etc:/etc/kong:ro
+    restart: always
+  # -------------------------------- * Kong Web 服务 * --------------------------------
+#  kong-dashboard:
+#    environment:
+#      KONG_URL: http://192.168.1.10:8100
+#    image: jirry/kong-dashboard
+#    container_name: jirry-kong-dashboard
+#    build:
+#      context: .
+#      dockerfile: ${KONG_DASHBOARD_DIR}/Dockerfile
+#    depends_on:
+#      - kong
+#    ports:
+#      - "8080:8080"
+#    restart: always
+
+
 
 
 
