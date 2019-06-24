@@ -1,2 +1,2 @@
 FROM lmenezes/cerebro
-LABEL maintainer="jirry <390066398@qq.com>"
+LABEL maintainer="jirry <jirenyoucn@gmail.com>"

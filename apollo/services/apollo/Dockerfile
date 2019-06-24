@@ -1,4 +1,4 @@
-FROM consul
+FROM nobodyiam/apollo-quick-start
 LABEL maintainer="jirry <jirenyoucn@gmail.com>"
 
 # 设置时区

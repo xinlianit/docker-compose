@@ -1,5 +1,5 @@
 FROM kong:0.13.1-centos
-LABEL maintainer="jirry <390066398@qq.com>"
+LABEL maintainer="jirry <jirenyoucn@gmail.com>"
 
 # 设置服务根目录
 ENV SERVICE_PATH ./services/kong

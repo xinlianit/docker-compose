@@ -2,7 +2,7 @@
 FROM php:7.3-fpm
 
 # 维护人信息
-LABEL maintainer="jirry <390066398@qq.com>"
+LABEL maintainer="jirry <jirenyoucn@gmail.com>"
 
 # 设置服务根目录
 ENV SERVICE_PATH ./services/php

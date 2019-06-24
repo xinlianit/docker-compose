@@ -1,5 +1,5 @@
 FROM consul
-LABEL maintainer="jirry <390066398@qq.com>"
+LABEL maintainer="jirry <jirenyoucn@gmail.com>"
 
 # 设置时区
 ENV TIMEZONE=Asia/Shanghai

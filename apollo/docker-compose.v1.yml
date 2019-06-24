@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  # -------------------------------- * apollo 配置中心 * --------------------------------
+  apollo:
+    image: jirry/apollo
+    container_name: jirry-apollo
+    build:
+      context: .
+      dockerfile: ${APOLLO_DIR}/apollo/Dockerfile
+    ports:
+      - "8060:8080"
+      - "8070:8070"
+    depends_on:
+      - jirry-mysql
+    networks:
+      - environment-develop_default
+    restart: always
