@@ -50,6 +50,17 @@ zip \
 && docker-php-ext-install mbstring \
 && rm -r /var/lib/apt/lists/*
 
+# 安装 Redis 扩展
+COPY $SERVICE_PATH/pkg/phpredis-4.3.0.tar.gz /usr/local/src/phpredis-4.3.0.tar.gz
+RUN cd /usr/local/src/ \
+&& tar -zxvf phpredis-4.3.0.tar.gz \
+&& cd phpredis-4.3.0 \
+&& phpize \
+&& ./configure --with-php-config=/usr/local/bin/php-config \
+&& make && make install \
+&& echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini \
+&& cd ../ && rm -rf phpredis*
+
 # 安装 Swoole 扩展
 # see: https://github.com/swoole/swoole-src
 # TODO: COPY 应该放在 `if` 判断执行
