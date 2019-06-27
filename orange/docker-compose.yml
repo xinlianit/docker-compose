@@ -1,0 +1,21 @@
+# 参考地址：https://blog.51cto.com/haowen/2347220?source=dra
+
+version: '3'
+
+services:
+  orange:
+    environment:
+      ORANGE_DATABASE: orange
+      ORANGE_HOST: 192.168.134.215
+      ORANGE_PORT: 3306
+      ORANGE_USER: orange
+      ORANGE_PWD: orange
+    image: jirry/orange
+    container_name: jirry-orange
+    build:
+      context: .
+      dockerfile: ${ORANGE_DIR}/Dockerfile
+    ports:
+      - "7777:7777"
+      - "8888:8888"
+      - "9999:9999"
