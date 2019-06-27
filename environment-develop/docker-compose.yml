@@ -71,6 +71,7 @@ services:
     ports:
       - "8000:80"
       - "8443:443"
+      - "60000:60000"
     volumes:
       - ${WWW_PATH}:/usr/local/openresty/nginx/html:rw
       - ${OPENRESTY_DIR}/etc/conf.d:/etc/nginx/conf.d
