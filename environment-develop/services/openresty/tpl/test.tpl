@@ -1,1 +1,9 @@
-{{key "test_key"}}
+<?php
+return [
+    "services"  => [
+        {{range service "user"}}
+            "{{.Address}}:{{.Port}}",
+        {{end}}
+    ],
+    "key"   => "{{key "test_key"}}"
+];

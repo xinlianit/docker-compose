@@ -1,0 +1,18 @@
+{
+  "services":[
+    {
+      "id": "user-001",
+      "name": "user",
+      "address": "192.168.134.215",
+      "port": 60001,
+      "tags": ["user"],
+      "checks": [
+        {
+          "http": "http://192.168.134.215:60001",
+          "interval": "5s",
+          "timeout": "3s"
+        }
+      ]
+    }
+  ]
+}
