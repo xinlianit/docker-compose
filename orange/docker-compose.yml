@@ -6,7 +6,7 @@ services:
   orange:
     environment:
       ORANGE_DATABASE: orange
-      ORANGE_HOST: 192.168.1.10
+      ORANGE_HOST: 192.168.134.215
       ORANGE_PORT: 3306
       ORANGE_USER: orange
       ORANGE_PWD: orange
@@ -15,8 +15,6 @@ services:
     build:
       context: .
       dockerfile: ${ORANGE_DIR}/Dockerfile
-    volumes:
-      - ${ORANGE_DIR}/conf:/usr/local/orange/conf
     ports:
       - "7777:7777"
       - "8888:8888"
