@@ -77,6 +77,8 @@ services:
       - ${WWW_PATH}:/usr/local/openresty/nginx/html:rw
       - ${OPENRESTY_DIR}/etc/conf.d:/etc/nginx/conf.d
       - ${OPENRESTY_DIR}/etc/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ${OPENRESTY_DIR}/lualib:/usr/local/openresty/lualib
+      - ${OPENRESTY_DIR}/lua:/usr/local/openresty/lua
     restart: always
     command: openresty -g 'daemon off;'
   # -------------------------------- * Postgores 服务 * --------------------------------

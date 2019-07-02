@@ -78,3 +78,4 @@ RUN if [ ${INSTALL_SWOOLE} = true ]; then \
 
 # 配置 php.ini
 COPY $SERVICE_PATH/etc/php/php.ini /usr/local/etc/php/php.ini
+
