@@ -1,0 +1,42 @@
+{
+  "services": [
+    {
+      "id": "base.service.jirry.com-000001",
+      "name": "base.service.jirry.com",
+      "tags": [
+        "基础服务",
+        "base.service.jirry.com"
+      ],
+      "address": "192.168.1.10",
+      "port": 60000,
+      "checks": [
+        {
+          "http": "http://192.168.1.10:60000/health/status",
+          "tls_skip_verify": false,
+          "method": "GET",
+          "interval": "10s",
+          "timeout": "1s"
+        }
+      ]
+    },
+    {
+      "id": "base.service.jirry.com-000002",
+      "name": "base.service.jirry.com",
+      "tags": [
+        "基础服务",
+        "base.service.jirry.com"
+      ],
+      "address": "192.168.1.10",
+      "port": 60000,
+      "checks": [
+        {
+          "http": "http://192.168.1.10:60000/health/status",
+          "tls_skip_verify": false,
+          "method": "GET",
+          "interval": "10s",
+          "timeout": "1s"
+        }
+      ]
+    }
+  ]
+}

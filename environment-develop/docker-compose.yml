@@ -72,6 +72,7 @@ services:
       - "8000:80"
       - "8443:443"
       - "60000:60000"
+      - "60001:60001"
     volumes:
       - ${WWW_PATH}:/usr/local/openresty/nginx/html:rw
       - ${OPENRESTY_DIR}/etc/conf.d:/etc/nginx/conf.d
