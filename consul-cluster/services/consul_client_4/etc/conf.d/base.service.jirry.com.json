@@ -1,17 +1,17 @@
 {
   "services": [
     {
-      "id": "user.service.jirry.com-000001",
-      "name": "user.service.jirry.com",
+      "id": "base.service.jirry.com-000001",
+      "name": "base.service.jirry.com",
       "tags": [
-        "用户服务",
-        "user.service.jirry.com"
+        "基础服务",
+        "base.service.jirry.com"
       ],
       "address": "192.168.1.10",
-      "port": 60001,
+      "port": 60000,
       "checks": [
         {
-          "http": "http://192.168.1.10:60001/health/status",
+          "http": "http://192.168.1.10:60000/health/status",
           "tls_skip_verify": false,
           "method": "GET",
           "interval": "10s",
@@ -20,17 +20,17 @@
       ]
     },
     {
-      "id": "user.service.jirry.com-000002",
-      "name": "user.service.jirry.com",
+      "id": "base.service.jirry.com-000002",
+      "name": "base.service.jirry.com",
       "tags": [
-        "用户服务",
-        "user.service.jirry.com"
+        "基础服务",
+        "base.service.jirry.com"
       ],
       "address": "192.168.1.10",
-      "port": 60001,
+      "port": 60000,
       "checks": [
         {
-          "http": "http://192.168.1.10:60001/health/status",
+          "http": "http://192.168.1.10:60000/health/status",
           "tls_skip_verify": false,
           "method": "GET",
           "interval": "10s",
