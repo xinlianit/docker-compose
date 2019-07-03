@@ -70,15 +70,15 @@ services:
       - php
     ports:
       - "8000:80"
+      - "801:801"
       - "8443:443"
       - "60000:60000"
       - "60001:60001"
     volumes:
       - ${WWW_PATH}:/usr/local/openresty/nginx/html:rw
       - ${OPENRESTY_DIR}/etc/conf.d:/etc/nginx/conf.d
-      - ${OPENRESTY_DIR}/etc/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ${OPENRESTY_DIR}/lualib:/usr/local/openresty/lualib
-      - ${OPENRESTY_DIR}/lua:/usr/local/openresty/lua
+      - ${OPENRESTY_DIR}/etc/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
+      - /var/www/openresty:/var/www/openresty
     restart: always
     command: openresty -g 'daemon off;'
   # -------------------------------- * Postgores 服务 * --------------------------------
