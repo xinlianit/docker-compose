@@ -125,6 +125,7 @@ services:
       - "8444:8444"
     volumes:
       - ${KONG_DIR}/etc:/etc/kong:ro
+      - ${KONG_DIR}/kong:/usr/local/share/lua/5.1/kong:rw
     restart: always
   # -------------------------------- * Kong Web 服务 * --------------------------------
 #  kong-dashboard:
