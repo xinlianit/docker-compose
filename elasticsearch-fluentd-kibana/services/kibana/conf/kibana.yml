@@ -2,7 +2,7 @@
 server.host: "0.0.0.0"
 # 服务端口
 server.port: 5601
-# ES
+# elasticsearch 地址
 elasticsearch.hosts: [ "http://elasticsearch:9200" ]
 monitoring.ui.container.elasticsearch.enabled: true
 # 汉化(尝试无效)
