@@ -29,25 +29,25 @@ services:
     ports:
       - 19200:9200
       - 19300:9300
-#  kibana:
-#    image: docker.elastic.co/kibana/kibana:7.13.2
-#    container_name: kibana
-#    build:
-#      context: .
-#      dockerfile: ${KIBANA_DIR}/7.13.2/Dockerfile
-#    #    networks: # 指定网络
-#    #      - dev
-#    depends_on: # 依赖服务
-#      - elasticsearch     # kibana在elasticsearch启动之后再启动
-#    links: # 定义别名，从而使用该别名访问其他服务
-#      - elasticsearch:es  # 使用es这个域名访问elasticsearch服务
-#    environment:
-#      - TZ=Asia/Shanghai
-#      - "elasticsearch.hosts=http://es:9200" # 设置访问elasticsearch的地址
-#    volumes:
-#      - ${KIBANA_DIR}/conf/kibana.yml:/usr/share/kibana/config/kibana.yml   # 配置文件挂载
-#    ports:
-#      - 15601:5601
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.13.2
+    container_name: kibana
+    build:
+      context: .
+      dockerfile: ${KIBANA_DIR}/7.13.2/Dockerfile
+    #    networks: # 指定网络
+    #      - dev
+    depends_on: # 依赖服务
+      - elasticsearch     # kibana在elasticsearch启动之后再启动
+    links: # 定义别名，从而使用该别名访问其他服务
+      - elasticsearch:es  # 使用es这个域名访问elasticsearch服务
+    environment:
+      - TZ=Asia/Shanghai
+      - "elasticsearch.hosts=http://es:9200" # 设置访问elasticsearch的地址
+    volumes:
+      - ${KIBANA_DIR}/conf/kibana.yml:/usr/share/kibana/config/kibana.yml   # 配置文件挂载
+    ports:
+      - 15601:5601
 #  fluentd:
 #    image: fluent/fluentd
 #    container_name: fluentd

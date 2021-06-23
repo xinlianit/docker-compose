@@ -1,19 +1,9 @@
-#
-# ** THIS IS AN AUTO-GENERATED FILE **
-#
-
-# Default Kibana configuration for docker target
-#server.host: "0"
-#elasticsearch.hosts: [ "http://elasticsearch:9200" ]
-#monitoring.ui.container.elasticsearch.enabled: true
-
-
-# 服务端口
-server.port: 5601
 # 服务IP
 server.host: "0.0.0.0"
+# 服务端口
+server.port: 5601
 # ES
 elasticsearch.hosts: [ "http://elasticsearch:9200" ]
 monitoring.ui.container.elasticsearch.enabled: true
-# 汉化
+# 汉化(尝试无效)
 #i18n.locale: "zh-CN"
