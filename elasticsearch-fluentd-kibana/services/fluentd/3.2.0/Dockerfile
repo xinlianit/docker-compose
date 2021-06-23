@@ -1,4 +1,4 @@
-FROM quay.io/fluentd_elasticsearch/fluentd:v3.2.0
+FROM fluent/fluentd
 LABEL maintainer="jerry <jirenyoucn@gmail.com>"
 
 # 设置服务根目录
