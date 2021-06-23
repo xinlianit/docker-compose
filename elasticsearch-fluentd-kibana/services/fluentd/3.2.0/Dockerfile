@@ -1,4 +1,4 @@
-FROM fluent/fluentd
+FROM fluent/fluentd:latest
 LABEL maintainer="jerry <jirenyoucn@gmail.com>"
 
 # 设置服务根目录
@@ -17,14 +17,6 @@ RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && echo $TIMEZONE > /et
 USER root
 
 # 安装插件
-RUN apk add --no-cache --update --virtual .build-deps \
-        sudo build-base ruby-dev \
- && sudo gem install fluent-plugin-elasticsearch \
- && sudo gem sources --clear-all \
- && apk del .build-deps \
- && rm -rf /tmp/* /var/tmp/* /usr/lib/ruby/gems/*/cache/*.gem
-
-#COPY fluent.conf /fluentd/etc/
-#COPY entrypoint.sh /bin/
+RUN gem install fluent-plugin-elasticsearch
 
 USER fluent
