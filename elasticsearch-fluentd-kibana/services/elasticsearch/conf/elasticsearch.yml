@@ -1,20 +1,19 @@
-#cluster.name: "docker-cluster"
-#network.host: 0.0.0.0
-
 # 集群名称
-#cluster.name: es-cluster
-## 节点名称
-#node.name: es-master
-## 是否可以成为master节点
-#node.master: true
-## 是否允许该节点存储数据,默认开启
-#node.data: true
-## 网络绑定
-#network.host: 0.0.0.0
-## 设置对外服务的http端口
-#http.port: 9200
-## 设置节点间交互的tcp端口
-#transport.port: 9300
+cluster.name: es-cluster
+# 节点名称
+node.name: es-master
+# 是否可以成为master节点
+node.master: true
+# 是否允许该节点存储数据,默认开启
+node.data: true
+# 网络绑定
+network.host: 0.0.0.0
+# 设置对外服务的http端口
+http.port: 9200
+# 设置节点间交互的tcp端口
+transport.port: 9300
+# 集群发现类型：以单一节点模式启动
+discovery.type: single-node
 ## 集群发现
 #discovery.seed_hosts:
 #  - es-master

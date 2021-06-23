@@ -19,56 +19,54 @@ services:
 #      - dev
     user: root  # 使用root用户启动
     environment:
-      - TZ=Asia/Shanghai
-      - "cluster.name=elasticsearch"        # 设置集群名称为elasticsearch
-      - "discovery.type=single-node"        # 以单一节点模式启动
+      - TZ=Asia/Shanghai    # 设置时区
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"    # 设置使用jvm内存大小
     volumes:
       - ${ELASTICSEARCH_DIR}/conf/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml   # 配置文件挂载
       - ${ELASTICSEARCH_DIR}/data:/usr/share/elasticsearch/data         # 数据目录挂载
       - ${ELASTICSEARCH_DIR}/logs:/usr/share/elasticsearch/logs         # 日志目录挂载
-#      - ${ELASTICSEARCH_DIR}/plugins:/usr/share/elasticsearch/plugins   # 插件目录挂载
+      - ${ELASTICSEARCH_DIR}/plugins:/usr/share/elasticsearch/plugins   # 插件目录挂载
     ports:
       - 19200:9200
       - 19300:9300
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.13.2
-    container_name: kibana
-    build:
-      context: .
-      dockerfile: ${KIBANA_DIR}/7.13.2/Dockerfile
-    #    networks: # 指定网络
-    #      - dev
-    depends_on: # 依赖服务
-      - elasticsearch     # kibana在elasticsearch启动之后再启动
-    links: # 定义别名，从而使用该别名访问其他服务
-      - elasticsearch:es  # 使用es这个域名访问elasticsearch服务
-    environment:
-      - TZ=Asia/Shanghai
-      - "elasticsearch.hosts=http://es:9200" # 设置访问elasticsearch的地址
-    volumes:
-      - ${KIBANA_DIR}/conf/kibana.yml:/usr/share/kibana/config/kibana.yml   # 配置文件挂载
-    ports:
-      - 15601:5601
-  fluentd:
-    image: fluent/fluentd
-    container_name: fluentd
-    build:
-      context: .
-      dockerfile: ${FLUENTD_DIR}/3.2.0/Dockerfile
-#    networks: # 指定网络
-#      - dev
-    user: root # 使用root用户启动
-    depends_on:   # 依赖服务
-      - elasticsearch   # fluentd在elasticsearch启动之后再启动
-    environment:
-      - TZ=Asia/Shanghai
-    volumes:
-      - ${FLUENTD_DIR}/conf/fluent.conf:/fluentd/etc/fluent.conf   # 配置文件挂载
-      - ${FLUENTD_DIR}/log:/fluentd/log   # 日志目录挂载
-      - /usr/local/opt/docker/nginx/logs:/fluentd/nginx/logs    # 宿主机nginx日志挂载到，fluentd 容器，用作日志搜集测试
-    ports:
-      - 24221:24221
-      - 24222:24222
-      - 24223:24223
-      - 24224:24224
+#  kibana:
+#    image: docker.elastic.co/kibana/kibana:7.13.2
+#    container_name: kibana
+#    build:
+#      context: .
+#      dockerfile: ${KIBANA_DIR}/7.13.2/Dockerfile
+#    #    networks: # 指定网络
+#    #      - dev
+#    depends_on: # 依赖服务
+#      - elasticsearch     # kibana在elasticsearch启动之后再启动
+#    links: # 定义别名，从而使用该别名访问其他服务
+#      - elasticsearch:es  # 使用es这个域名访问elasticsearch服务
+#    environment:
+#      - TZ=Asia/Shanghai
+#      - "elasticsearch.hosts=http://es:9200" # 设置访问elasticsearch的地址
+#    volumes:
+#      - ${KIBANA_DIR}/conf/kibana.yml:/usr/share/kibana/config/kibana.yml   # 配置文件挂载
+#    ports:
+#      - 15601:5601
+#  fluentd:
+#    image: fluent/fluentd
+#    container_name: fluentd
+#    build:
+#      context: .
+#      dockerfile: ${FLUENTD_DIR}/3.2.0/Dockerfile
+##    networks: # 指定网络
+##      - dev
+#    user: root # 使用root用户启动
+#    depends_on:   # 依赖服务
+#      - elasticsearch   # fluentd在elasticsearch启动之后再启动
+#    environment:
+#      - TZ=Asia/Shanghai
+#    volumes:
+#      - ${FLUENTD_DIR}/conf/fluent.conf:/fluentd/etc/fluent.conf   # 配置文件挂载
+#      - ${FLUENTD_DIR}/log:/fluentd/log   # 日志目录挂载
+#      - /usr/local/opt/docker/nginx/logs:/fluentd/nginx/logs    # 宿主机nginx日志挂载到，fluentd 容器，用作日志搜集测试
+#    ports:
+#      - 24221:24221
+#      - 24222:24222
+#      - 24223:24223
+#      - 24224:24224
