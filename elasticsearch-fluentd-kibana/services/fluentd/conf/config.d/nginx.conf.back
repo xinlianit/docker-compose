@@ -1,4 +1,5 @@
 ##################### 数据源 #####################
+# Nginx 访问日志
 <source>
   # 插件类型; 自带插件: tail、forward、http、tcp、udp
   @type tail
@@ -13,6 +14,25 @@
   time_format %d/%b/%Y:%H:%M:%S %z
   types status_code:integer,response_size:integer
 </source>
+
+# # Nginx 单行错误日志的解析
+# <source>
+#     @type tail
+#     tag nginx.error
+#     path /var/log/nginx/error.log
+#     format /^(?<time>\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}) \[(?<log_level>\w+)\] (?<pid>\d+).(?<tid>\d+): (?<message>.*)$/
+# </source>
+# # Nginx多行错误日志的解析
+# <source>
+#     @type tail
+#     tag nginx.error
+#     path /var/log/nginx/error.log
+#
+#     format multiline
+#     format_firstline /^\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2} \[\w+\] (?<pid>\d+).(?<tid>\d+): /
+#     format1 /^(?<time>\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}) \[(?<log_level>\w+)\] (?<pid>\d+).(?<tid>\d+): (?<message>.*)/
+#     multiline_flush_interval 3s
+# </source>
 
 ##################### 数据过滤 #####################
 # <filter nginx.access>

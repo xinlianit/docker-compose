@@ -63,7 +63,7 @@ services:
       - ${FLUENTD_DIR}/log:/fluentd/log   # 日志目录挂载
       - /usr/local/opt/docker/nginx/logs:/fluentd/nginx/logs    # 宿主机nginx日志挂载到，fluentd 容器，用作日志搜集测试
     ports:
-      - 24221:24221
-      - 24222:24222
-      - 24223:24223
-      - 24224:24224   # 24224: 用于Fluentd Forward协议
+      - 24221:24221   # 24221: 用于Fluentd http协议
+      - 24222:24222   # 24222: 用于Fluentd tcp协议
+      - 24223:24223   # 24223: 用于Fluentd udp协议
+      - 24224:24224   # 24224: 用于Fluentd forward协议
