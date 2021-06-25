@@ -9,6 +9,7 @@ networks:
 
 # 服务
 services:
+  # es 集群搭建：https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.13.2
     container_name: elasticsearch
